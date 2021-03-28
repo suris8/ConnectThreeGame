@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public List<String> colors = new ArrayList<>();
     ImageView counter;
     GridLayout gridLayout;
+    TextView winnerMessage;
+    Button resetButton;
 
     // resets the list to all white
     public void resetList(){
@@ -39,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
             if (turn == 9) {
                 counter.setImageResource(R.drawable.redchip);
             }
-            Toast.makeText(this, "Tie game. Try again.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Tie game. Try again.", Toast.LENGTH_SHORT).show();
+            winnerMessage.setText("Tie game. Try again.");
+            resetButton.setVisibility(View.VISIBLE);
+            winnerMessage.setVisibility(View.VISIBLE);
             // if odd turn, put red chip and check if game has been won
         } else if (turn % 2 == 1){
             counter.setImageResource(R.drawable.redchip);
@@ -68,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
             counter.animate().translationYBy(1500).setDuration(300);
             Log.i("turn", String.valueOf(turn));
         } else {
-            Toast.makeText(this, "Game already won. Reset to play again!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Game already won. Reset to play again!", Toast.LENGTH_SHORT).show();
+            winnerMessage.setText("Game already won. Reset to play again!");
         }
     }
 
@@ -76,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
     public void wonMessage(){
         String winner = isWon();
         if (won == true) {
-            Toast.makeText(this, winner + " is the winner!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, winner + " is the winner!", Toast.LENGTH_LONG).show();
+            winnerMessage.setText(winner + " is the winner!");
+            resetButton.setVisibility(View.VISIBLE);
+            winnerMessage.setVisibility(View.VISIBLE);
         }
     }
 
@@ -93,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         turn = 1;
         won = false;
         resetList();
+        resetButton.setVisibility(View.INVISIBLE);
+        winnerMessage.setVisibility(View.INVISIBLE);
     }
 
     // checks all winning conditions
@@ -131,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         gridLayout = (GridLayout)findViewById(R.id.gridLayout2);
+        winnerMessage = (TextView)findViewById(R.id.winnerMessage);
+        resetButton = (Button)findViewById(R.id.reset);
+
         for(int i = 0; i < 9; i++){
             colors.add("white");
         }
